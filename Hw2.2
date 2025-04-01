@@ -1,0 +1,927 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyMIY4LPB12XnHah672k478z",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/ivanhazda/goit-ds-hw-02/blob/main/Hw2.2\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "9Vc-ihsFy6hW"
+      },
+      "outputs": [],
+      "source": [
+        "https://docs.google.com/spreadsheets/d/1bclX5PbqE8zR1-wOSM3ZTFa53sIC7RXqwty7Abmw9yQ/edit#gid=1724592523"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import pandas as pd\n",
+        "import matplotlib.pyplot as plt\n",
+        "import seaborn as sns\n",
+        "\n",
+        "#from google.colab import drive\n",
+        "#drive.mount('/content/drive')\n"
+      ],
+      "metadata": {
+        "id": "OoRhWVnBJ4ve"
+      },
+      "execution_count": 6,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "csv_url = \"https://docs.google.com/spreadsheets/d/1bclX5PbqE8zR1-wOSM3ZTFa53sIC7RXqwty7Abmw9yQ/gviz/tq?tqx=out:csv\"\n",
+        "\n",
+        "# Прочитайте файл 2017_jun_final.csv за допомогою методу read_csv\n",
+        "df = pd.read_csv(csv_url)"
+      ],
+      "metadata": {
+        "collapsed": true,
+        "id": "SzJXJyOmKJCj"
+      },
+      "execution_count": 7,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#Прочитайте отриману таблицю, використовуючи метод head\n",
+        "print(df.head())"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "1GEcL8514D8k",
+        "outputId": "e0323510-d4e8-4042-9a79-76e5d361de98"
+      },
+      "execution_count": 8,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "   N                    Посада Мова програмування Спеціалізація  \\\n",
+            "0  1        Junior QA engineer                NaN     Manual QA   \n",
+            "1  2        Junior QA engineer                NaN     Manual QA   \n",
+            "2  3         Software Engineer            C#/.NET           NaN   \n",
+            "3  4         Software Engineer         JavaScript           NaN   \n",
+            "4  5  Senior Software Engineer         JavaScript           NaN   \n",
+            "\n",
+            "   Загальний досвід роботи  Досвід роботи на поточному місці  \\\n",
+            "0                      0.5                               0.5   \n",
+            "1                      NaN                               NaN   \n",
+            "2                      4.0                               1.0   \n",
+            "3                      5.0                               4.0   \n",
+            "4                      NaN                               0.5   \n",
+            "\n",
+            "   Зарплата на місяць  Зміна зарплати за 12 місяців   Місто   Розмір компанії  \\\n",
+            "0                 400                             0  Харків        до 10 осіб   \n",
+            "1                 430                           130  Харків  більше 1000 осіб   \n",
+            "2                2500                           800    Київ      до 1000 осіб   \n",
+            "3                2000                           400   Одеса       до 200 осіб   \n",
+            "4                4500                           500    Інше        до 10 осіб   \n",
+            "\n",
+            "   ...                  Предметна область      Дата заповнення  \\\n",
+            "0  ...                      iOS,eCommerce  12/06/2017 12:38:08   \n",
+            "1  ...                       Веб-розробка  12/06/2017 12:42:51   \n",
+            "2  ...  Веб-розробка,Корпоративні системи  12/06/2017 13:02:47   \n",
+            "3  ...  Desktop Applications,Веб-розробка  12/06/2017 13:03:01   \n",
+            "4  ...  Desktop Applications,Веб-розробка  12/06/2017 13:03:47   \n",
+            "\n",
+            "                                          User.Agent   exp current_job_exp  \\\n",
+            "0  Mozilla/5.0 (Windows NT 10.0; Win64; x64) Appl...   0.5             0.5   \n",
+            "1  Mozilla/5.0 (iPad; CPU OS 10_2_1 like Mac OS X...   0.0             0.0   \n",
+            "2  Mozilla/5.0 (Windows NT 10.0; Win64; x64) Appl...   4.0             1.0   \n",
+            "3  Mozilla/5.0 (Windows NT 6.1; Win64; x64) Apple...   5.0             4.0   \n",
+            "4  Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_2 like...  10.0             0.5   \n",
+            "\n",
+            "   salary Валюта  cls Unnamed: 25 Unnamed: 26  \n",
+            "0     400    NaN   QA         NaN         NaN  \n",
+            "1     430    NaN   QA         NaN         NaN  \n",
+            "2    2500    NaN  DEV         NaN         NaN  \n",
+            "3    2000    NaN  DEV         NaN         NaN  \n",
+            "4    4500    NaN  DEV         NaN         NaN  \n",
+            "\n",
+            "[5 rows x 27 columns]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#\tВизначте розмір таблиці за допомогою методу shape\n",
+        "df.shape"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "collapsed": true,
+        "id": "d_c0Hg1JLfQT",
+        "outputId": "b9c06f16-975c-4397-d8b2-f0f6e848383a"
+      },
+      "execution_count": 9,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "(8704, 27)"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 9
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#Визначте типи всіх стовпців за допомогою dataframe.dtypes\n",
+        "df.dtypes"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 930
+        },
+        "id": "ShtwvWt62p7r",
+        "outputId": "57cbf814-603b-43d1-be9b-4164cc17dbf0"
+      },
+      "execution_count": 10,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "N                                     int64\n",
+              "Посада                               object\n",
+              "Мова програмування                   object\n",
+              "Спеціалізація                        object\n",
+              "Загальний досвід роботи             float64\n",
+              "Досвід роботи на поточному місці    float64\n",
+              "Зарплата на місяць                    int64\n",
+              "Зміна зарплати за 12 місяців          int64\n",
+              "Місто                                object\n",
+              "Розмір компанії                      object\n",
+              "Тип компанії                         object\n",
+              "Стать                                object\n",
+              "Вік                                   int64\n",
+              "Освіта                               object\n",
+              "Університет                          object\n",
+              "Ще студент                             bool\n",
+              "Рівень англійської                   object\n",
+              "Предметна область                    object\n",
+              "Дата заповнення                      object\n",
+              "User.Agent                           object\n",
+              "exp                                 float64\n",
+              "current_job_exp                     float64\n",
+              "salary                                int64\n",
+              "Валюта                               object\n",
+              "cls                                  object\n",
+              "Unnamed: 25                         float64\n",
+              "Unnamed: 26                         float64\n",
+              "dtype: object"
+            ],
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>0</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>N</th>\n",
+              "      <td>int64</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Посада</th>\n",
+              "      <td>object</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Мова програмування</th>\n",
+              "      <td>object</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Спеціалізація</th>\n",
+              "      <td>object</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Загальний досвід роботи</th>\n",
+              "      <td>float64</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Досвід роботи на поточному місці</th>\n",
+              "      <td>float64</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Зарплата на місяць</th>\n",
+              "      <td>int64</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Зміна зарплати за 12 місяців</th>\n",
+              "      <td>int64</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Місто</th>\n",
+              "      <td>object</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Розмір компанії</th>\n",
+              "      <td>object</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Тип компанії</th>\n",
+              "      <td>object</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Стать</th>\n",
+              "      <td>object</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Вік</th>\n",
+              "      <td>int64</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Освіта</th>\n",
+              "      <td>object</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Університет</th>\n",
+              "      <td>object</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Ще студент</th>\n",
+              "      <td>bool</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Рівень англійської</th>\n",
+              "      <td>object</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Предметна область</th>\n",
+              "      <td>object</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Дата заповнення</th>\n",
+              "      <td>object</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>User.Agent</th>\n",
+              "      <td>object</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>exp</th>\n",
+              "      <td>float64</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>current_job_exp</th>\n",
+              "      <td>float64</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>salary</th>\n",
+              "      <td>int64</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Валюта</th>\n",
+              "      <td>object</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>cls</th>\n",
+              "      <td>object</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Unnamed: 25</th>\n",
+              "      <td>float64</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Unnamed: 26</th>\n",
+              "      <td>float64</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div><br><label><b>dtype:</b> object</label>"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 10
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Порахуйте, яка частка пропусків міститься в кожній колонці (використовуйте методи isnull та sum)\n",
+        "df.isnull().sum()/len(df)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 930
+        },
+        "id": "e-qTYJ_o402s",
+        "outputId": "903cb41b-a204-4fff-b043-9b7a3bb2d77b"
+      },
+      "execution_count": 15,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "N                                   0.000000\n",
+              "Посада                              0.000000\n",
+              "Мова програмування                  0.442325\n",
+              "Спеціалізація                       0.829389\n",
+              "Загальний досвід роботи             0.124426\n",
+              "Досвід роботи на поточному місці    0.130400\n",
+              "Зарплата на місяць                  0.000000\n",
+              "Зміна зарплати за 12 місяців        0.000000\n",
+              "Місто                               0.000000\n",
+              "Розмір компанії                     0.000000\n",
+              "Тип компанії                        0.000000\n",
+              "Стать                               0.000000\n",
+              "Вік                                 0.000000\n",
+              "Освіта                              0.000000\n",
+              "Університет                         0.041131\n",
+              "Ще студент                          0.000000\n",
+              "Рівень англійської                  0.000000\n",
+              "Предметна область                   0.025620\n",
+              "Дата заповнення                     0.655101\n",
+              "User.Agent                          0.000000\n",
+              "exp                                 0.000000\n",
+              "current_job_exp                     0.000000\n",
+              "salary                              0.000000\n",
+              "Валюта                              0.998851\n",
+              "cls                                 0.180836\n",
+              "Unnamed: 25                         1.000000\n",
+              "Unnamed: 26                         1.000000\n",
+              "dtype: float64"
+            ],
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>0</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>N</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Посада</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Мова програмування</th>\n",
+              "      <td>0.442325</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Спеціалізація</th>\n",
+              "      <td>0.829389</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Загальний досвід роботи</th>\n",
+              "      <td>0.124426</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Досвід роботи на поточному місці</th>\n",
+              "      <td>0.130400</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Зарплата на місяць</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Зміна зарплати за 12 місяців</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Місто</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Розмір компанії</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Тип компанії</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Стать</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Вік</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Освіта</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Університет</th>\n",
+              "      <td>0.041131</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Ще студент</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Рівень англійської</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Предметна область</th>\n",
+              "      <td>0.025620</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Дата заповнення</th>\n",
+              "      <td>0.655101</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>User.Agent</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>exp</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>current_job_exp</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>salary</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Валюта</th>\n",
+              "      <td>0.998851</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>cls</th>\n",
+              "      <td>0.180836</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Unnamed: 25</th>\n",
+              "      <td>1.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Unnamed: 26</th>\n",
+              "      <td>1.000000</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div><br><label><b>dtype:</b> float64</label>"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 15
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Видаліть усі стовпці з пропусками, крім стовпця \"Мова програмування\"\n",
+        "columns_with_missing = df.columns[df.isnull().any()]\n",
+        "columns_to_drop = columns_with_missing.difference(['Мова програмування'])\n",
+        "df = df.drop(columns=columns_to_drop)\n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "2ePC6FAe6PYI"
+      },
+      "execution_count": 25,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#\tЗнову порахуйте, яка частка пропусків міститься в кожній колонці і переконайтеся, що залишився тільки стовпець \"Мова.програмування\"\n",
+        "df.isnull().sum()/len(df)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 617
+        },
+        "id": "dhHgpx7x86fM",
+        "outputId": "edd3ff4e-57e3-422e-c8fe-c91fddba3cc9"
+      },
+      "execution_count": 26,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "N                               0.000000\n",
+              "Посада                          0.000000\n",
+              "Мова програмування              0.442325\n",
+              "Зарплата на місяць              0.000000\n",
+              "Зміна зарплати за 12 місяців    0.000000\n",
+              "Місто                           0.000000\n",
+              "Розмір компанії                 0.000000\n",
+              "Тип компанії                    0.000000\n",
+              "Стать                           0.000000\n",
+              "Вік                             0.000000\n",
+              "Освіта                          0.000000\n",
+              "Ще студент                      0.000000\n",
+              "Рівень англійської              0.000000\n",
+              "User.Agent                      0.000000\n",
+              "exp                             0.000000\n",
+              "current_job_exp                 0.000000\n",
+              "salary                          0.000000\n",
+              "dtype: float64"
+            ],
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>0</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>N</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Посада</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Мова програмування</th>\n",
+              "      <td>0.442325</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Зарплата на місяць</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Зміна зарплати за 12 місяців</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Місто</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Розмір компанії</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Тип компанії</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Стать</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Вік</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Освіта</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Ще студент</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Рівень англійської</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>User.Agent</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>exp</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>current_job_exp</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>salary</th>\n",
+              "      <td>0.000000</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div><br><label><b>dtype:</b> float64</label>"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 26
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#Видаліть усі рядки у вихідній таблиці за допомогою методу dropna\n",
+        "df=df.dropna()"
+      ],
+      "metadata": {
+        "id": "-I52fSs79Lt3"
+      },
+      "execution_count": 27,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Визначте новий розмір таблиці за допомогою методу shape\n",
+        "df.shape"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "IOSCC3hFAyLf",
+        "outputId": "ec9991b6-6bd7-456e-f97d-22b9f18f56d6"
+      },
+      "execution_count": 28,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "(4854, 17)"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 28
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#Створіть нову таблицю python_data, в якій будуть тільки рядки зі спеціалістами, які вказали мову програмування Python\n",
+        "python_data=df[df['Мова програмування'] == 'Python']"
+      ],
+      "metadata": {
+        "id": "_zIF0HhcA_Rq"
+      },
+      "execution_count": 29,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Визначте розмір таблиці python_data за допомогою методу shape\n",
+        "python_data.shape"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "UEGuoHF8Bgcp",
+        "outputId": "70d84eff-6129-4480-d3ec-18dc193d787a"
+      },
+      "execution_count": 30,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "(207, 17)"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 30
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#Використовуючи метод groupby, виконайте групування за стовпчиком \"Посада\n",
+        "grouped_data = python_data.groupby('Посада')"
+      ],
+      "metadata": {
+        "id": "EPY72j6aB2JP"
+      },
+      "execution_count": 31,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#Створіть новий DataFrame, де для згрупованих даних за стовпчиком \"Посада\", виконайте агрегацію даних за допомогою методу agg і знайдіть мінімальне та максимальне значення у стовпчику \"Зарплата.в.місяць\"\n",
+        "salary_agg = grouped_data['Зарплата на місяць'].agg(['min', 'max']).reset_index()"
+      ],
+      "metadata": {
+        "id": "oI5xVCMkCCqT"
+      },
+      "execution_count": 32,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#Створіть функцію fill_avg_salary, яка повертатиме середнє значення заробітної плати на місяць.\n",
+        "#Використовуйте її для методу apply та створіть новий стовпчик \"avg\"\n",
+        "def fill_avg_salary(row):\n",
+        "    return (row['min'] + row['max']) / 2\n",
+        "salary_agg['avg'] = salary_agg.apply(fill_avg_salary, axis=1)\n"
+      ],
+      "metadata": {
+        "id": "xS-0Vi3vCbS7"
+      },
+      "execution_count": 35,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#Створіть описову статистику за допомогою методу describe для нового стовпчика.\n",
+        "describe_avg = salary_agg['avg'].describe()\n",
+        "describe_avg"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 335
+        },
+        "id": "od50ZUsSCqkX",
+        "outputId": "e4512592-9074-4fc6-8aff-614fd48cc588"
+      },
+      "execution_count": 37,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "count       5.000000\n",
+              "mean     3337.500000\n",
+              "std      1700.091909\n",
+              "min       675.000000\n",
+              "25%      2950.000000\n",
+              "50%      3812.500000\n",
+              "75%      4000.000000\n",
+              "max      5250.000000\n",
+              "Name: avg, dtype: float64"
+            ],
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>avg</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>count</th>\n",
+              "      <td>5.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>mean</th>\n",
+              "      <td>3337.500000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>std</th>\n",
+              "      <td>1700.091909</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>min</th>\n",
+              "      <td>675.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>25%</th>\n",
+              "      <td>2950.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>50%</th>\n",
+              "      <td>3812.500000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>75%</th>\n",
+              "      <td>4000.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>max</th>\n",
+              "      <td>5250.000000</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div><br><label><b>dtype:</b> float64</label>"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 37
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#Збережіть отриману таблицю в CSV файл\n",
+        "output_file_path = 'processed_salary_data.csv'\n",
+        "salary_agg.to_csv(output_file_path, index=False)\n"
+      ],
+      "metadata": {
+        "id": "YPLfVgalDaXu"
+      },
+      "execution_count": 38,
+      "outputs": []
+    }
+  ]
+}
